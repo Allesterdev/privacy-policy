@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMC Práctico - Políticas de Privacidad</title>
+    <title id="page-title">BMI Calculator - Privacy Policies</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -15,6 +15,34 @@
         h1 {
             color: #333;
             text-align: center;
+        }
+        .language-selector {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 8px;
+        }
+        .language-selector button {
+            background: #007cba;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            margin: 0 5px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .language-selector button:hover {
+            background: #005a8a;
+        }
+        .language-selector button.active {
+            background: #005a8a;
+        }
+        .content {
+            display: none;
+        }
+        .content.active {
+            display: block;
         }
         .policy-links {
             display: grid;
@@ -55,26 +83,106 @@
     </style>
 </head>
 <body>
-    <h1>IMC Práctico - Políticas de Privacidad</h1>
-    <p>Selecciona la política de privacidad adecuada para tu región y idioma. Cada política incluye información sobre el manejo de los datos de la aplicación y sobre los anuncios (por ejemplo, Google AdMob).</p>
+    <div class="language-selector">
+        <button onclick="switchLanguage('en')" id="btn-en">English</button>
+        <button onclick="switchLanguage('es')" id="btn-es">Español</button>
+    </div>
 
-    <div class="policy-links">
-        <div class="policy-card">
-            <h2>Unión Europea (UE / EEA / Reino Unido)</h2>
-            <a href="privacy_eu_es.html">Español</a>
-            <a href="privacy_eu_en.html">English</a>
+    <div id="content-en" class="content">
+        <h1>BMI Calculator - Privacy Policies</h1>
+        <p>Select the appropriate privacy policy for your region and language. Each policy includes information about data handling in the application and about advertisements (e.g., Google AdMob).</p>
+
+        <div class="policy-links">
+            <div class="policy-card">
+                <h2>European Union (EU / EEA / United Kingdom)</h2>
+                <a href="privacy_eu_es.html">Español</a>
+                <a href="privacy_eu_en.html">English</a>
+            </div>
+
+            <div class="policy-card">
+                <h2>United States</h2>
+                <a href="privacy_us_es.html">Español</a>
+                <a href="privacy_us_en.html">English</a>
+            </div>
         </div>
 
-        <div class="policy-card">
-            <h2>Estados Unidos</h2>
-            <a href="privacy_us_es.html">Español</a>
-            <a href="privacy_us_en.html">English</a>
+        <div class="footer">
+            <p>Last updated: 2025-09-21</p>
+            <p>Contact: <a href="mailto:oscarcampoy.dev@gmail.com">oscarcampoy.dev@gmail.com</a></p>
         </div>
     </div>
 
-    <div class="footer">
-        <p>Última actualización: 2025-09-21</p>
-        <p>Contacto: <a href="mailto:oscarcampoy.dev@gmail.com">oscarcampoy.dev@gmail.com</a></p>
+    <div id="content-es" class="content">
+        <h1>IMC Práctico - Políticas de Privacidad</h1>
+        <p>Selecciona la política de privacidad adecuada para tu región y idioma. Cada política incluye información sobre el manejo de los datos de la aplicación y sobre los anuncios (por ejemplo, Google AdMob).</p>
+
+        <div class="policy-links">
+            <div class="policy-card">
+                <h2>Unión Europea (UE / EEA / Reino Unido)</h2>
+                <a href="privacy_eu_es.html">Español</a>
+                <a href="privacy_eu_en.html">English</a>
+            </div>
+
+            <div class="policy-card">
+                <h2>Estados Unidos</h2>
+                <a href="privacy_us_es.html">Español</a>
+                <a href="privacy_us_en.html">English</a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Última actualización: 2025-09-21</p>
+            <p>Contacto: <a href="mailto:oscarcampoy.dev@gmail.com">oscarcampoy.dev@gmail.com</a></p>
+        </div>
     </div>
+
+    <script>
+        function switchLanguage(lang) {
+            // Hide all content
+            document.querySelectorAll('.content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.language-selector button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected language content
+            document.getElementById('content-' + lang).classList.add('active');
+            document.getElementById('btn-' + lang).classList.add('active');
+            
+            // Update page title and language
+            if (lang === 'en') {
+                document.getElementById('page-title').textContent = 'BMI Calculator - Privacy Policies';
+                document.documentElement.lang = 'en';
+            } else {
+                document.getElementById('page-title').textContent = 'IMC Práctico - Políticas de Privacidad';
+                document.documentElement.lang = 'es';
+            }
+            
+            // Store preference
+            localStorage.setItem('preferred-language', lang);
+        }
+        
+        // Auto-detect language on page load
+        function detectLanguage() {
+            // Check for stored preference first
+            const storedLang = localStorage.getItem('preferred-language');
+            if (storedLang) {
+                switchLanguage(storedLang);
+                return;
+            }
+            
+            // Detect browser language
+            const userLang = navigator.language || navigator.userLanguage;
+            const isSpanish = userLang.startsWith('es');
+            
+            switchLanguage(isSpanish ? 'es' : 'en');
+        }
+        
+        // Initialize page
+        detectLanguage();
+    </script>
 </body>
 </html>
